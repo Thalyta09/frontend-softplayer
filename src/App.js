@@ -10,9 +10,8 @@ const App = () => {
     <Router>
       <Switch>
         < Route exact path={["/", "/login"]} component={Login} />
-        < Route path="/formulario" component={Formulario} />
+        < Route path={["/formulario/:id", "/formulario"]} component={Formulario} />
         < Route exact path="/lista" component={Listagem} />
-        {/* < Route path="/lista/:id" component={Listagem} /> */}
         < Route exact path="/sobre" component={Sobre} />
       </Switch>  
     </Router>

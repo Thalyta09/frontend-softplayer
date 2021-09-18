@@ -1,10 +1,17 @@
-import { React, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { React, useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 
 const Formulario = () => {
+    
+    const history = useHistory()
+    const id = useParams()
 
-    const history = useHistory();
-
+    const [updated, setUpdated] = useState({
+        param: "",
+        method: "POST",
+        messageButton: "Salvar"
+    })
+    
     const [player, setPlayer] = useState({
         name: "",
         cpf: "",
@@ -14,6 +21,23 @@ const Formulario = () => {
         naturality: "",
         nationality: ""
     })
+
+    useEffect( ()=> {
+        var index = parseInt(id.id)
+        if (!isNaN(index)){
+
+            fetch("/api/player/" + id.id)
+            .then(response => response.json())
+            .then(data => setPlayer(data))
+
+            setUpdated({
+                param: id.id,
+                method: "PUT",
+                messageButton: "Atualizar"
+            })
+
+        }
+    }, [])
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -27,8 +51,8 @@ const Formulario = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch('/api/player/create', {
-            method: 'POST',
+        fetch('/api/player/' + updated.param, {
+            method: updated.method,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -89,7 +113,7 @@ const Formulario = () => {
                             <select
                                 name="gender"
                                 id="gender"
-                                valueu={player.gender || ''}
+                                value={player.gender || ''}
                                 className="form-control"
                                 onChange={handleChange}
                             >
@@ -140,7 +164,7 @@ const Formulario = () => {
                             <button
                                 className="btn-env btn-primary btn-lg"
                                 type="submit" >
-                                Salvar
+                                {updated.messageButton}
                             </button>
                             <button
                                 className="btn-can btn-danger btn-lg"
