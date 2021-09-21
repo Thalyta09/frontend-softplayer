@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, Link } from 'react-router-dom';
 
 const Formulario = () => {
     
@@ -169,9 +169,9 @@ const Formulario = () => {
                             <button
                                 className="btn-can btn-danger btn-lg"
                             >
-                                <a href="/lista">
+                                <Link className="link" to="/lista">
                                     Cancelar
-                                </a>
+                                </Link>
                             </button>
                         </div>
                     </div>
